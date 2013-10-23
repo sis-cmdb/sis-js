@@ -16,7 +16,7 @@
 
 (function() {
 
-    var client = require('./lib/client');
+    var client = require('./lib/sis-js');
 
     var createClient = function(options) {
         return client.create(options);
