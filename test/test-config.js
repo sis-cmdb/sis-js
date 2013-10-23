@@ -13,6 +13,7 @@
  Copyright (c) 2013 VeriSign, Inc.  All rights reserved.
 
  ***********************************************************/
+'use strict';
 
 // client opts
 module.exports = {

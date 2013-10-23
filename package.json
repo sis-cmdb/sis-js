@@ -2,7 +2,7 @@
   "name": "sis-js",
   "version": "0.0.1",
   "description": "SIS Client for Javascript",
-  "main": "index.js",
+  "main": "lib/sis-js.js",
   "scripts": {
     "test": "mocha"
     },

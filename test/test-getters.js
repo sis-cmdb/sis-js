@@ -13,13 +13,14 @@
  Copyright (c) 2013 VeriSign, Inc.  All rights reserved.
 
 ***********************************************************/
+'use strict';
 
 var sis = require('../');
 var should = require('should');
 var config = require('./test-config');
 
 describe("Getters", function() {
-    var client = sis(config);
+    var client = sis.client(config);
 
     // should return at least [] for hooks, schemas, and hiera
     var apis = ['hooks', 'schemas', 'hiera'];
@@ -32,6 +33,5 @@ describe("Getters", function() {
             });
         });
     });
-
 });
 
