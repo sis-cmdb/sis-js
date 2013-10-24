@@ -51,8 +51,8 @@ function generateTest(test, client) {
         }
 
         var endpoint = null;
-        if (data['entity_type']) {
-            endpoint = client.entities(data['entity_type']);
+        if (data['entityType']) {
+            endpoint = client.entities(data['entityType']);
         } else {
             endpoint = client[data['type']];
         }
