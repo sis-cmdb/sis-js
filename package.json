@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "SIS Client for Javascript",
   "main": "lib/sis-js.js",
+  "private" : true,
   "scripts": {
     "test": "mocha"
     },
