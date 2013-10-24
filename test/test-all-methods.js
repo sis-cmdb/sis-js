@@ -113,7 +113,11 @@ function generateTest(test, client) {
                     endpoint.get(id, function(err, result) {
                         should.not.exist(err);
                         should.exist(result);
-                        result.should.eql(item);
+                        if (data['get_eqlfun']) {
+                            data['get_eqlfun'](result, item);
+                        } else {
+                            result.should.eql(item);
+                        }
                         done(err, result);
                     });
                 });
