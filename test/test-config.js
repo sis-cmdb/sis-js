@@ -15,7 +15,22 @@
  ***********************************************************/
 'use strict';
 
-// client opts
-module.exports = {
-    url : "http://localhost:3000/"
-}
+(function() {
+
+    // client opts
+    var config = {
+        url : "http://localhost:3000/"
+    }
+
+    // test env
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = config;
+    } else {
+        // attach to global SIS object - must include sis-js.js in browser first
+        if (window && window.SIS) {
+            window.SIS.testConfig = config;
+        }
+    }
+
+})();
+
