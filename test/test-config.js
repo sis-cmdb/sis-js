@@ -17,5 +17,5 @@
 
 // client opts
 module.exports = {
-    url : "http://sis-node1.dev-bo.iad1.vrsn.com/"
+    url : "http://localhost:3000/"
 }
