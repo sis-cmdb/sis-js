@@ -58,8 +58,8 @@
                 "hieradata" : { "no" : "name" }
             }
         ],
-        "get_eqlfun" : function(result, full_item) {
-            result.should.eql(full_item['hieradata']);
+        "get_eqlfun" : function(result, full_item, expect) {
+            expect(result).to.eql(full_item['hieradata']);
         }
     }
 
@@ -69,7 +69,7 @@
     } else {
         // attach to global SIS object - must include sis-js.js in browser first
         if (window && window.SIS && window.SIS.testData) {
-            window.SIS.testData.push(test)
+            window.SIS.testData.push([test, 'hiera-test-0'])
         }
     }
 

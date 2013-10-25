@@ -101,3 +101,20 @@ This maps to a DELETE '/id' request against the appropriate v1 endpoint.
 * obj : either a string id or an object retrieved from `list` or `get`
 
 `true` is returned to the callback on success.
+
+## Testing
+
+All tests require a test server to hit.  Ensure that it is running and that test/test-config.js points to it.
+
+### Node
+
+One time setup: `npm install -g mocha`
+
+```
+mocha
+```
+
+### Browser
+
+Run `make webroot` to produce the `webroot` folder.  Then open webroot/index.html in your favorite browser.
+

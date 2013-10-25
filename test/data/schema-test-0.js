@@ -108,7 +108,7 @@
     } else {
         // attach to global SIS object - must include sis-js.js in browser first
         if (window && window.SIS && window.SIS.testData) {
-            window.SIS.testData.push(test)
+            window.SIS.testData.push([test, 'schema-test-0'])
         }
     }
 

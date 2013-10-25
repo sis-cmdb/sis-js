@@ -18,12 +18,12 @@
 (function() {
     var test = {
         // The type of entity
-        "entityType" : "schema1",
+        "entityType" : "entity_test",
         // The id field of the entity
         "idField" : "_id",
         // Schema definition
         "requiredSchema" : {
-            "name" : "schema1",
+            "name" : "entity_test",
             "owner" : "schema_owner",
             "definition" : {
                 "name" : { "type" : "String", "required" : true, "unique" : true },
@@ -66,7 +66,7 @@
     } else {
         // attach to global SIS object - must include sis-js.js in browser first
         if (window && window.SIS && window.SIS.testData) {
-            window.SIS.testData.push(test)
+            window.SIS.testData.push([test, 'entity-test-0']);
         }
     }
 

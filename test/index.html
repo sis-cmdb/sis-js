@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="lib/mocha.css" />
+        <script src="./lib/sis-js.js"></script>
+        <script src="./lib/mocha.js"></script>
+        <script src="./lib/expect.js"></script>
+        <script>
+            // init test data globals
+            SIS.testData = [];
+        </script>
+        <script src="./lib/test/test-config.js"></script>
+        <script src="./lib/test/test-util.js"></script>
+        <script src="./lib/test/entity-test-0.js"></script>
+        <script src="./lib/test/hiera-test-0.js"></script>
+        <script src="./lib/test/hook-test-0.js"></script>
+        <script src="./lib/test/schema-test-0.js"></script>
+
+        <script>mocha.setup("bdd");</script>
+        <script>
+            function runTests() {
+                var client = SIS.client(SIS.testConfig);
+                SIS.testData.map(function(test) {
+                    SIS.generateTest(test, client);
+                });
+
+                mocha.run();
+            }
+        </script>
+    </head>
+    <body onload="runTests();">
+        <div id="mocha"></div>
+    </body>
+
+</html>

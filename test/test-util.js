@@ -17,7 +17,7 @@
 
 (function() {
 
-    var should = should || null;
+    var expect = null;
 
     function generateTest(test, client) {
         var data = test[0];
@@ -49,9 +49,9 @@
                     it("should create valid item " + i, function(done) {
                         var validItem = validItems[i];
                         endpoint.create(validItem, function(err, result) {
-                            should.not.exist(err);
-                            should.exist(result);
-                            should.exist(result[idField]);
+                            expect(err).to.be(null);
+                            expect(result).to.be.ok();
+                            expect(result[idField]).to.be.ok();
                             addedItems.push(result);
                             done(err, result);
                         });
@@ -66,8 +66,8 @@
                     it("should fail to create invalid item " + i, function(done) {
                         var invalidItem = invalidItems[i];
                         endpoint.create(invalidItem, function(err, result) {
-                            should.exist(err);
-                            should.exist(err.error);
+                            expect(err).to.be.ok();
+                            expect(err.error).to.be.ok();
                             done();
                         });
                     });
@@ -78,9 +78,10 @@
             if (validItems.length) {
                 it("should retrieve a non empty array", function(done) {
                     endpoint.list(function(err, result) {
-                        should.not.exist(err);
-                        should.exist(result);
-                        result.length.should.be.above(0);
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        expect(result).to.be.an(Array);
+                        expect(result.length).to.be.above(0);
                         done(err, result);
                     });
                 });
@@ -93,12 +94,12 @@
                         var item = addedItems[i];
                         var id = item[idField];
                         endpoint.get(id, function(err, result) {
-                            should.not.exist(err);
-                            should.exist(result);
+                            expect(err).to.be(null);
+                            expect(result).to.be.ok();
                             if (data['get_eqlfun']) {
-                                data['get_eqlfun'](result, item);
+                                data['get_eqlfun'](result, item, expect);
                             } else {
-                                result.should.eql(item);
+                                expect(result).to.eql(item);
                             }
                             done(err, result);
                         });
@@ -115,9 +116,8 @@
                     it("should delete item " + i, function(done) {
                         var item = addedItems[i];
                         endpoint.delete(item[idField], function(err, result) {
-                            should.not.exist(err);
-                            should.exist(result);
-                            result.should.be.true;
+                            expect(err).to.be(null);
+                            expect(result).to.be.ok();
                             done(err, result);
                         });
                     });
@@ -128,11 +128,12 @@
 
     // test env
     if (typeof module !== 'undefined' && module.exports) {
-        should = require('should');
+        expect = require('expect.js');
         module.exports.generateTest = exports = generateTest;
     } else {
         // attach to global SIS object - must include sis-js.js in browser first
         if (window && window.SIS) {
+            expect = window.expect;
             window.SIS.generateTest = generateTest;
         }
     }
