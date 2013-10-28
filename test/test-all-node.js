@@ -37,3 +37,23 @@ describe("Test API via data folder", function() {
 
 });
 
+describe("Test invalid client opts", function() {
+    var expect = require('expect.js');
+
+    it("Should fail without options", function() {
+        expect(function() {
+            SIS.client(null);
+        }).to.throwError();
+    });
+    it("Should fail without a url", function() {
+        expect(function() {
+            SIS.client({});
+        }).to.throwError();
+    });
+    it("Should fail with a non http URL", function() {
+        expect(function() {
+            SIS.client({'url' : 'ftp://foo.com'});
+        }).to.throwError();
+    });
+});
+

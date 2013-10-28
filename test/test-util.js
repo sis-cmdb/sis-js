@@ -85,6 +85,16 @@
                         done(err, result);
                     });
                 });
+
+                it("should retrieve a single item array", function(done) {
+                    endpoint.list({'limit' : 1}, function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        expect(result).to.be.an(Array);
+                        expect(result.length).to.eql(1);
+                        done(err, result);
+                    });
+                });
             }
 
             // ensure valid items can be retrieved by their id
@@ -123,6 +133,43 @@
                     });
                 })(i);
             }
+
+            var createErrorCallback = function(done) {
+                return function(err, result) {
+                    expect(err).to.be.ok();
+                    expect(err.error).to.be.ok();
+                    expect(result).to.be(null);
+                    done();
+                }
+            }
+
+            // test errors
+            it("Should error getting without an id", function(done) {
+                endpoint.get(createErrorCallback(done));
+            });
+            it("Should error getting null id", function(done) {
+                endpoint.get(null, createErrorCallback(done));
+            });
+            it("Should raise getting no args", function() {
+                expect(function() {
+                    endpoint.get()
+                }).to.throwError();
+            });
+            it("Should error creating null", function(done) {
+                endpoint.create(null, createErrorCallback(done));
+            });
+            it("Should error deleting null", function(done) {
+                endpoint.delete(null, createErrorCallback(done));
+            });
+            it("Should error deleting an object without the id field", function(done) {
+                endpoint.delete({"no" : "idfield"}, createErrorCallback(done));
+            });
+            it("Should error updating null", function(done) {
+                endpoint.update(null, createErrorCallback(done));
+            });
+            it("Should error updating an object without the id field", function(done) {
+                endpoint.update({"no" : "idfield"}, createErrorCallback(done));
+            });
         });
     }
 
