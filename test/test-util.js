@@ -95,6 +95,30 @@
                         done(err, result);
                     });
                 });
+
+                it("should retrieve a single item array by id", function(done) {
+                    var q = {};
+                    q[idField] = addedItems[0][idField];
+                    endpoint.list({'q' : q }, function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        expect(result).to.be.an(Array);
+                        expect(result.length).to.eql(1);
+                        done(err, result);
+                    });
+                });
+
+                it("should retrieve a single item array by id via JSON string", function(done) {
+                    var q = {};
+                    q[idField] = addedItems[0][idField];
+                    endpoint.list({'q' : JSON.stringify(q) }, function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        expect(result).to.be.an(Array);
+                        expect(result.length).to.eql(1);
+                        done(err, result);
+                    });
+                });
             }
 
             // ensure valid items can be retrieved by their id
