@@ -82,6 +82,7 @@
                         expect(result).to.be.ok();
                         expect(result).to.be.an(Array);
                         expect(result.length).to.be.above(0);
+                        expect(result.totalCount).to.eql(validItems.length);
                         done(err, result);
                     });
                 });
