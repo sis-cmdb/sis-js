@@ -19,7 +19,8 @@
 
     // client opts
     var config = {
-        url : "http://localhost:3000/"
+        url : "http://localhost:3000/",
+        token : "473382c6782cc5454991e3f6bb738ae1"
     }
 
     // test env

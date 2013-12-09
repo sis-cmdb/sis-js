@@ -25,6 +25,12 @@ describe("Test API via data folder", function() {
     var generateTest = require('./test-util').generateTest;
     var client = SIS.client(config);
 
+    if (config['user']) {
+        before(function(done) {
+            client.authenticate(config['user'], config['pass'], done);
+        });
+    }
+
     // pull in data files
     var testData = [];
     fs.readdirSync(__dirname + '/data').forEach(function(file) {

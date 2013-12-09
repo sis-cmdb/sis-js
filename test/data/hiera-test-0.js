@@ -26,6 +26,7 @@
         "validItems" : [
             {
                 "name" : "hiera1",
+                "owner" : ["sisjs"],
                 "hieradata" : {
                     "key1" : "data1",
                     "key2" : "data2"
@@ -33,6 +34,7 @@
             },
             {
                 "name" : "hiera2",
+                "owner" : ["sisjs"],
                 "hieradata" : {
                     "key3" : "data1",
                     "key4" : "data2"
@@ -42,6 +44,14 @@
         "invalidItems" : [
             {
                 "name" : "hiera1",
+                "owner" : ["sisjs"],
+                "hieradata" : {
+                    "key3" : "data1",
+                    "key4" : "data2"
+                }
+            },
+            {
+                "name" : "hiera3",
                 "hieradata" : {
                     "key3" : "data1",
                     "key4" : "data2"

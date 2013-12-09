@@ -18,12 +18,17 @@
 
         <script>mocha.setup("bdd");</script>
         <script>
-            function runTests() {
-                var client = SIS.client(SIS.testConfig);
+            function runAllTests(client) {
                 SIS.testData.map(function(test) {
                     SIS.generateTest(test, client);
                 });
+            }
 
+            function runTests() {
+                var config = SIS.testConfig;
+                var client = SIS.client(config);
+                // expecting a token
+                runAllTests(client);
                 mocha.run();
             }
         </script>
