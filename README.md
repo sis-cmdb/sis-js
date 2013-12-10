@@ -11,7 +11,7 @@ Currently only the v1 API is supported.
 ```javascript
 
 var SIS = require('sis-js');
-var SISClient = SIS({'url' : 'http://sis.host'});
+var SISClient = SIS.client({'url' : 'http://sis.host'});
 
 ```
 
@@ -24,7 +24,7 @@ The code is designed to be an npm module, but it is not a public module to insta
 ```
 
 ```javascript
-var SISClient = SIS({'url' : 'http://sis.host'});
+var SISClient = SIS.client({'url' : 'http://sis.host'});
 ```
 
 ## Working with a SIS Client
@@ -54,6 +54,25 @@ SISClient.entities('entity_name').delete('foo', function(err, result) {
 ```
 
 All callbacks receive an `err` as the first parameter and the result of the API call as the second.
+
+### Authentication / Token Support
+
+SIS Clients must use authentication tokens for most operations.  The token can be provided in a number of ways.
+
+* Add a `token` field to the object passed to the `SIS` function. I.E. `var client = SIS.client({'url' : 'http://sis.host', 'token' : '<token goes here>'});`
+* Call `authenticate` on the `client` to authenticate via username/password and use the returned temporary token.  The following example shows the use of authenticate:
+
+```
+var SISClient = SIS.client({'url' : 'http://sis.host'});
+SISClient.authenticate('user', 'password', function(err, authenticated) {
+    if (err || !authenticated) { 
+        // authentication failed
+    } else {
+        // authentication succeeded and the client
+        // token has been set
+    }
+});
+```
 
 The object returned by SISClient.hooks, SISClient.schemas, SISClient.hiera, and SISClient.entities(entity_name) all interact with the appropriate endpoints and expose the following interface:
 
