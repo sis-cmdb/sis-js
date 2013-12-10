@@ -22,14 +22,20 @@
                 SIS.testData.map(function(test) {
                     SIS.generateTest(test, client);
                 });
+                mocha.run();
             }
 
             function runTests() {
                 var config = SIS.testConfig;
                 var client = SIS.client(config);
-                // expecting a token
-                runAllTests(client);
-                mocha.run();
+                if (config['user']) {
+                    client.authenticate(config['user'], config['pass'],
+                                        function(e, t) {
+                        runAllTests(client);
+                    });
+                } else {
+                    runAllTests(client);
+                }
             }
         </script>
     </head>
