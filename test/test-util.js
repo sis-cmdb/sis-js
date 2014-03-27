@@ -80,9 +80,12 @@
                     endpoint.list(function(err, result) {
                         expect(err).to.be(null);
                         expect(result).to.be.ok();
-                        expect(result).to.be.an(Array);
+                        expect(result.results).to.be.an(Array);
+                        expect(result.total_count).to.be.above(0)
+                        var totalCount = result.total_count;
+                        result = result.results;
                         expect(result.length).to.be.above(0);
-                        expect(result.totalCount).to.eql(validItems.length);
+                        expect(totalCount).to.eql(validItems.length);
                         done(err, result);
                     });
                 });
@@ -91,8 +94,8 @@
                     endpoint.list({'limit' : 1}, function(err, result) {
                         expect(err).to.be(null);
                         expect(result).to.be.ok();
-                        expect(result).to.be.an(Array);
-                        expect(result.length).to.eql(1);
+                        expect(result.results).to.be.an(Array);
+                        expect(result.results.length).to.eql(1);
                         done(err, result);
                     });
                 });
@@ -103,8 +106,8 @@
                     endpoint.list({'q' : q }, function(err, result) {
                         expect(err).to.be(null);
                         expect(result).to.be.ok();
-                        expect(result).to.be.an(Array);
-                        expect(result.length).to.eql(1);
+                        expect(result.results).to.be.an(Array);
+                        expect(result.results.length).to.eql(1);
                         done(err, result);
                     });
                 });
@@ -115,8 +118,8 @@
                     endpoint.list({'q' : JSON.stringify(q) }, function(err, result) {
                         expect(err).to.be(null);
                         expect(result).to.be.ok();
-                        expect(result).to.be.an(Array);
-                        expect(result.length).to.eql(1);
+                        expect(result.results).to.be.an(Array);
+                        expect(result.results.length).to.eql(1);
                         done(err, result);
                     });
                 });
