@@ -43,6 +43,7 @@
 
             // add valid items
             var validItems = data['validItems'] || [];
+            var updateItems = data['updateItems'] || [];
             var addedItems = [];
             for (var i = 0; i < validItems.length; ++i) {
                 (function gen(i) {
@@ -85,7 +86,7 @@
                         var totalCount = result.total_count;
                         result = result.results;
                         expect(result.length).to.be.above(0);
-                        expect(totalCount).to.eql(validItems.length);
+                        expect(totalCount).to.not.be.below(validItems.length - 1);
                         done(err, result);
                     });
                 });
@@ -146,7 +147,13 @@
             }
 
             // TODO: ensure update works
+            // for (var i = 0; i < updateItems.length; ++i) {
+            //     (function gen(i) {
+            //         it("should update item " + i, function(done) {
 
+            //         });
+            //     })(i);
+            // }
 
             // ensure delete works
             for (var i = 0; i < validItems.length; ++i) {

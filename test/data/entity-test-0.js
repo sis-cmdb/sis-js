@@ -13,9 +13,8 @@
  Copyright (c) 2013 VeriSign, Inc.  All rights reserved.
 
  ***********************************************************/
-'use strict';
-
 (function() {
+    'use strict';
     var test = {
         // The type of entity
         "entityType" : "entity_test",
@@ -45,6 +44,17 @@
                 "number" : 2,
             }
         ],
+        "updateItems" : [
+            {
+                number : 3,
+            },
+            {
+                number : 4,
+            },
+            {
+                number : 5
+            }
+        ],
         "invalidItems" : [
             {
                 "foo" : "bar"
@@ -58,7 +68,7 @@
                 "number" : 0
             }
         ]
-    }
+    };
 
     // test env
     if (typeof module !== 'undefined' && module.exports) {

@@ -20,8 +20,8 @@
     // client opts
     var config = {
         url : "http://localhost:3000/",
-        user : "test",
-        pass : "abc123"
+        user : "sistest",
+        pass : "sistest"
     }
 
     // test env
