@@ -13,9 +13,8 @@
  Copyright (c) 2013 VeriSign, Inc.  All rights reserved.
 
 ***********************************************************/
-'use strict';
-
 (function() {
+    'use strict';
 
     var expect = null;
 
@@ -23,57 +22,68 @@
         var data = test[0];
         var name = test[1];
         describe("Test " + name, function() {
-            if (data['requiredSchema']) {
-                before(function(done) {
-                    client.schemas.create(data['requiredSchema'], done);
-                });
-                after(function(done) {
-                    client.schemas.delete(data['requiredSchema'], done);
-                });
-            }
 
             var endpoint = null;
-            if (data['entityType']) {
-                endpoint = client.entities(data['entityType']);
+            if (data.entityType) {
+                endpoint = client.entities(data.entityType);
             } else {
-                endpoint = client[data['type']];
+                endpoint = client[data.type];
             }
 
-            var idField = data['idField'];
+            var idField = data.idField;
 
-            // add valid items
-            var validItems = data['validItems'] || [];
-            var updateItems = data['updateItems'] || [];
+            // items
+            var validItems = data.validItems || [];
+            var updateItems = data.updateItems || [];
+            var invalidItems = data.invalidItems || [];
             var addedItems = [];
-            for (var i = 0; i < validItems.length; ++i) {
-                (function gen(i) {
-                    it("should create valid item " + i, function(done) {
-                        var validItem = validItems[i];
-                        endpoint.create(validItem, function(err, result) {
-                            expect(err).to.be(null);
-                            expect(result).to.be.ok();
-                            expect(result[idField]).to.be.ok();
-                            addedItems.push(result);
-                            done(err, result);
-                        });
+
+            if (data.requiredSchema) {
+                before(function(done) {
+                    // nuke the schema and then delete
+                    client.schemas.delete(data.requiredSchema.name, function(err, res) {
+                        client.schemas.create(data.requiredSchema, done);
                     });
-                })(i);
+                });
+                after(function(done) {
+                    client.schemas.delete(data.requiredSchema, done);
+                });
+            } else {
+                // sis objects.. nuke them all
+                before(function(done) {
+                    var ids = validItems.map(function(i) {
+                        return i[idField];
+                    });
+                    var query = {}; query[idField] = { $in : ids };
+                    endpoint.bulkDelete({ q : query }, done);
+                });
             }
+
+
+            validItems.forEach(function(validItem, i) {
+                it("should create valid item " + i, function(done) {
+                    endpoint.create(validItem, function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        expect(result[idField]).to.be.ok();
+                        addedItems.push(result);
+                        done(err, result);
+                    });
+                });
+            });
 
             // ensure invalid items don't get created
-            var invalidItems = data['invalidItems'] || [];
-            for (var i = 0; i < invalidItems.length; ++i) {
-                (function gen(i) {
-                    it("should fail to create invalid item " + i, function(done) {
-                        var invalidItem = invalidItems[i];
-                        endpoint.create(invalidItem, function(err, result) {
-                            expect(err).to.be.ok();
-                            expect(err.error).to.be.ok();
-                            done();
-                        });
+
+            invalidItems.forEach(function(item, i) {
+                it("should fail to create invalid item " + i, function(done) {
+                    var invalidItem = invalidItems[i];
+                    endpoint.create(invalidItem, function(err, result) {
+                        expect(err).to.be.ok();
+                        expect(err.error).to.be.ok();
+                        done();
                     });
-                })(i);
-            }
+                });
+            });
 
             // ensure list retrieves non empty array
             if (validItems.length) {
@@ -82,7 +92,7 @@
                         expect(err).to.be(null);
                         expect(result).to.be.ok();
                         expect(result.results).to.be.an(Array);
-                        expect(result.total_count).to.be.above(0)
+                        expect(result.total_count).to.be.above(0);
                         var totalCount = result.total_count;
                         result = result.results;
                         expect(result.length).to.be.above(0);
@@ -127,46 +137,72 @@
             }
 
             // ensure valid items can be retrieved by their id
-            for (var i = 0; i < validItems.length; ++i) {
-                (function gen(i) {
-                    it("should retrieve item " + i + " by id", function(done) {
-                        var item = addedItems[i];
-                        var id = item[idField];
-                        endpoint.get(id, function(err, result) {
-                            expect(err).to.be(null);
-                            expect(result).to.be.ok();
-                            if (data['get_eqlfun']) {
-                                data['get_eqlfun'](result, item, expect);
-                            } else {
-                                expect(result).to.eql(item);
-                            }
-                            done(err, result);
-                        });
+            validItems.forEach(function(item, i) {
+                it("should retrieve item " + i + " by id", function(done) {
+                    var id = addedItems[i][idField];
+                    endpoint.get(id, function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        if (data.get_eqlfun) {
+                            data.get_eqlfun(result, addedItems[i], expect);
+                        } else {
+                            expect(result).to.eql(addedItems[i]);
+                        }
+                        done(err, result);
                     });
-                })(i);
-            }
+                });
+            });
 
-            // TODO: ensure update works
-            // for (var i = 0; i < updateItems.length; ++i) {
-            //     (function gen(i) {
-            //         it("should update item " + i, function(done) {
-
-            //         });
-            //     })(i);
-            // }
+            updateItems.forEach(function(item, i) {
+                it("should update item " + i, function(done) {
+                    var payload = JSON.parse(JSON.stringify(item));
+                    payload[idField] = addedItems[i][idField];
+                    endpoint.update(payload, function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        done(err, result);
+                    });
+                });
+            });
 
             // ensure delete works
-            for (var i = 0; i < validItems.length; ++i) {
-                (function gen(i) {
-                    it("should delete item " + i, function(done) {
-                        var item = addedItems[i];
-                        endpoint.delete(item[idField], function(err, result) {
+            validItems.forEach(function(item, i) {
+                it("should delete item " + i, function(done) {
+                    var item = addedItems[i];
+                    endpoint.delete(item[idField], function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        done(err, result);
+                    });
+                });
+            });
+
+            // ensure bulk add/delete
+            if (validItems.length) {
+                // add them all
+                it("Should bulk add/delete", function(done) {
+                    endpoint.create(validItems, { all_or_none : true },
+                                    function(err, res) {
+                        expect(err).to.be(null);
+                        expect(res.success).to.be.an(Array);
+                        expect(res.errors).to.be.an(Array);
+                        expect(res.success.length).to.eql(validItems.length);
+                        // bulk delete
+                        var ids = res.success.map(function(added) {
+                            return added[idField];
+                        });
+                        var query = {}; query[idField] = {
+                            $in : ids
+                        };
+                        endpoint.bulkDelete({ q : query }, function(err, res) {
                             expect(err).to.be(null);
-                            expect(result).to.be.ok();
-                            done(err, result);
+                            expect(res.success).to.be.an(Array);
+                            expect(res.errors).to.be.an(Array);
+                            expect(res.success.length).to.eql(validItems.length);
+                            done();
                         });
                     });
-                })(i);
+                });
             }
 
             var createErrorCallback = function(done) {
@@ -175,8 +211,8 @@
                     expect(err.error).to.be.ok();
                     expect(result).to.be(null);
                     done();
-                }
-            }
+                };
+            };
 
             // test errors
             it("Should error getting without an id", function(done) {
@@ -187,7 +223,7 @@
             });
             it("Should raise getting no args", function() {
                 expect(function() {
-                    endpoint.get()
+                    endpoint.get();
                 }).to.throwError();
             });
             it("Should error creating null", function(done) {
