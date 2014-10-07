@@ -2,8 +2,6 @@
 
 A javascript client to talk to SIS.  Designed to work within node or modern browsers (native JSON api and XMLHttpRequest with CORS support).
 
-Currently only the v1 API is supported.
-
 # Usage
 
 ## Node
@@ -65,7 +63,7 @@ SIS Clients must use authentication tokens for most operations.  The token can b
 ```
 var SISClient = SIS.client({'url' : 'http://sis.host'});
 SISClient.authenticate('user', 'password', function(err, authenticated) {
-    if (err || !authenticated) { 
+    if (err || !authenticated) {
         // authentication failed
     } else {
         // authentication succeeded and the client
@@ -78,7 +76,7 @@ The object returned by SISClient.hooks, SISClient.schemas, SISClient.hiera, and 
 
 #### list(queryOpts, callback)
 
-This maps to a GET `/` request against the appropriate v1 endpoint.
+This maps to a GET `/` request against the endpoint.
 
 * queryOpts is an optional JSON object that constructs the query string.  Fields in the object include:
   * q : a json object specifying the filter
@@ -91,7 +89,7 @@ An array of objects is returned to the callback on success.
 
 #### get(id, callback)
 
-This maps to a GET `/id` request against the approprivate v1 endpoint.
+This maps to a GET `/id` request against the endpoint.
 
 * id : a string representing the ID of the object to receive.  For schemas, hooks, and hiera, this is the `name`.  For entities, it is the `_id`.
 
@@ -99,19 +97,37 @@ A single object is returned to the callback on success.
 
 #### create(obj, callback)
 
-This maps to a POST `/` request against the appropriate v1 endpoint.
+This maps to a POST `/` request against the endpoint.
 
-* obj : a valid JSON object conforming to the endpoint specification
+* obj : a valid JSON object conforming to the endpoint specification.  An array of objects implies a bulk insert operation.
 
-The created object is returned to the callback on success.
+The created object is returned to the callback on success.  In the case of a bulk insert, an object that looks like the following is returned:
+
+```javascript
+{
+    // list of objects that look like { err : error_object, value : object_that_failed_to_insert }
+    errors : [],
+    // list of objects that were successfully inserted
+    success : []
+}
+
+```
 
 #### update(obj, callback)
 
-This maps to a PUT '/' request against the appropriate v1 endpoint.
+This maps to a PUT '/:obj_id' request against the  endpoint.  The _id is used for entities, and 'name' is used for others.
 
 * obj : a valid JSON object conforming to the endpoint specification.  Typically retrieved from `list` or `get`.
 
 The updated object is returned to the callback on success.
+
+#### updateById(id, obj, query, callback)
+
+This maps to a PUT '/:id' request against the endpoint.
+
+* id : the ID of the object.  In non entities, the name.  In entities where the schema has an `id_field`, the id or `_id`.
+* obj : the payload to send
+* query : update modifiers.  This would be to specify CAS operations or upserts.
 
 #### delete(obj, callback)
 
@@ -120,6 +136,8 @@ This maps to a DELETE '/id' request against the appropriate v1 endpoint.
 * obj : either a string id or an object retrieved from `list` or `get`
 
 `true` is returned to the callback on success.
+
+
 
 ## Testing
 
@@ -136,4 +154,3 @@ mocha
 ### Browser
 
 Run `make webroot` to produce the `webroot` folder.  Then open webroot/index.html in your favorite browser.
-
