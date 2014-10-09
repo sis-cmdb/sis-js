@@ -1,21 +1,5 @@
-/***********************************************************
-
- The information in this document is proprietary
- to VeriSign and the VeriSign Product Development.
- It may not be used, reproduced or disclosed without
- the written approval of the General Manager of
- VeriSign Product Development.
-
- PRIVILEGED AND CONFIDENTIAL
- VERISIGN PROPRIETARY INFORMATION
- REGISTRY SENSITIVE INFORMATION
-
- Copyright (c) 2013 VeriSign, Inc.  All rights reserved.
-
- ***********************************************************/
-'use strict';
-
 (function() {
+    'use strict';
 
     var test = {
         // The type of entity
@@ -69,9 +53,9 @@
             }
         ],
         "get_eqlfun" : function(result, full_item, expect) {
-            expect(result).to.eql(full_item['hieradata']);
+            expect(result).to.eql(full_item.hieradata);
         }
-    }
+    };
 
     // test env
     if (typeof module !== 'undefined' && module.exports) {
@@ -79,7 +63,7 @@
     } else {
         // attach to global SIS object - must include sis-js.js in browser first
         if (window && window.SIS && window.SIS.testData) {
-            window.SIS.testData.push([test, 'hiera-test-0'])
+            window.SIS.testData.push([test, 'hiera-test-0']);
         }
     }
 
