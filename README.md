@@ -1,4 +1,24 @@
-# sis-js
+Table of Contents
+=================
+
+- [Description](#description)
+- [Usage](#usage)
+	- [Node](#node)
+	- [Browser](#browser)
+	- [Working with a SIS Client](#working-with-a-sis-client)
+		- [Authentication / Token Support](#authentication--token-support)
+			- [list(queryOpts, callback)](#listqueryopts-callback)
+			- [get(id, callback)](#getid-callback)
+			- [create(obj, callback)](#createobj-callback)
+			- [update(obj, callback)](#updateobj-callback)
+			- [updateById(id, obj, query, callback)](#updatebyidid-obj-query-callback)
+			- [delete(obj, callback)](#deleteobj-callback)
+	- [Testing](#testing)
+		- [Testing Node](#testing-node)
+		- [Testing in a Browser](#testing-in-a-browser)
+- [LICENSE](#license)
+
+# Description
 
 A javascript client to talk to SIS.  Designed to work within node or modern browsers (native JSON api and XMLHttpRequest with CORS support).
 
@@ -143,7 +163,7 @@ This maps to a DELETE '/id' request against the appropriate v1 endpoint.
 
 All tests require a test server to hit.  Ensure that it is running and that test/test-config.js points to it.
 
-### Node
+### Testing Node
 
 One time setup: `npm install -g mocha`
 
@@ -151,6 +171,10 @@ One time setup: `npm install -g mocha`
 mocha
 ```
 
-### Browser
+### Testing in a Browser
 
 Run `make webroot` to produce the `webroot` folder.  Then open webroot/index.html in your favorite browser.
+
+# LICENSE
+
+This software is licensed under the BSD 3-Clause license.  Please refer to the [LICENSE](./LICENSE) for more information.
