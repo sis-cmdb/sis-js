@@ -10,7 +10,7 @@ webroot:
 	cp test/data/*.js webroot/lib/test
 	cp test/test-config.js webroot/lib/test
 	cp test/test-util.js webroot/lib/test
-	cp lib/sis-js.js webroot/lib
+	cp lib/sis-client.js webroot/lib
 	cp test/index.html webroot/
 
 clean:
