@@ -15,5 +15,17 @@
     "devDependencies" : {
         "mocha"  : ">= 1.13.0",
         "expect.js" : ">= 0.2.0"
-    }
+    },
+    "author": {
+      "name": "Neel Goyal",
+      "email": "ngoyal@gmail.com"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/sis-cmdb/sis-js.git"
+    },
+    "bugs": {
+      "url": "http://github.com/sis-cmdb/sis-js/issues"
+    },
+    "license": "BSD-3"
 }

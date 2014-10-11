@@ -28,7 +28,7 @@ A javascript client to talk to SIS.  Designed to work within node or modern brow
 
 ```javascript
 
-var SIS = require('sis-js');
+var SIS = require('sis');
 var SISClient = SIS.client({'url' : 'http://sis.host'});
 
 ```
@@ -38,7 +38,7 @@ The code is designed to be an npm module, but it is not a public module to insta
 ## Browser
 
 ```html
-<script src='/path/to/sis-js.js'></script>
+<script src='/path/to/sis-client.js'></script>
 ```
 
 ```javascript
