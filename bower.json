@@ -1,0 +1,18 @@
+{
+  "name": "sis",
+  "version": "0.1.0",
+  "description": "SIS Client for Javascript",
+  "main": "lib/sis-client.js",
+  "license" : "BSD-3-Clause",
+  "keywords" : ["sis", "sis-cmdb"],
+  "authors" : [
+      {
+        "name": "Neel Goyal",
+        "email": "ngoyal@gmail.com"
+      }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sis-cmdb/sis-js.git"
+  }
+}
