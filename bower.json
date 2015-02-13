@@ -1,6 +1,6 @@
 {
   "name": "sis",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "SIS Client for Javascript",
   "main": "lib/sis-client.js",
   "license" : "BSD-3-Clause",
