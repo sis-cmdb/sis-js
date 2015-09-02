@@ -1,6 +1,6 @@
 {
   "name": "sis",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "SIS Client for Javascript",
   "main": "lib/sis-client.js",
   "scripts": {
