@@ -10,7 +10,7 @@
             {
                 "name" : "hook1",
                 "entity_type" : "some_entity",
-                "owner" : "hook_owner",
+                _sis: { "owner" : ["hook_owner"] },
                 "target" : {
                     "action" : "POST",
                     "url" : "http://my.hook.endpoint/endpoint"
@@ -20,7 +20,7 @@
             {
                 "name" : "hook2",
                 "entity_type" : "some_other_entity",
-                "owner" : "hook_owner",
+                _sis : { "owner" : ["hook_owner"] },
                 "target" : {
                     "action" : "PUT",
                     "url" : "http://my.hook.endpoint/endpoint"
@@ -37,7 +37,7 @@
             {
                 "name" : "hook2",
                 "entity_type" : "some_other_entity",
-                "owner" : "hook_owner",
+                _sis : { "owner" : ["hook_owner"] },
                 "target" : {
                     "action" : "PUT",
                     "url" : "http://my.hook.endpoint/endpoint"

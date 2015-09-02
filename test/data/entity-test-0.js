@@ -9,10 +9,11 @@
         // Schema definition
         "requiredSchema" : {
             "name" : "entity_test",
-            "owner" : "schema_owner",
+            _sis : { "owner" : ["schema_owner"] },
             "definition" : {
                 "name" : { "type" : "String", "required" : true, "unique" : true },
                 "number" : { "type" : "Number", "unique" : true, "required" : true },
+                "other" : "String"
             }
         },
         // valid items
@@ -39,6 +40,30 @@
             },
             {
                 number : 5
+            }
+        ],
+        "bulkArrayUpdate" : [
+            {
+                name: "entity1b",
+                number: 6
+            },
+            {
+                name: "entity2b",
+                number: 7
+            },
+            {
+                name: "entity3b",
+                number: 8
+            },
+        ],
+        "bulkQueryUpdate": [
+            {
+                query: {
+                    q: { number: { $gt:1 } }
+                },
+                payload: {
+                    other: "bulk"
+                }
             }
         ],
         "invalidItems" : [

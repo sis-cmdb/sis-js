@@ -21,6 +21,8 @@
             var validItems = data.validItems || [];
             var updateItems = data.updateItems || [];
             var invalidItems = data.invalidItems || [];
+            var bulkArrayUpdate = data.bulkArrayUpdate || [];
+            var bulkQueryUpdates = data.bulkQueryUpdate || [];
             var addedItems = [];
 
             if (data.requiredSchema) {
@@ -146,6 +148,39 @@
                         expect(err).to.be(null);
                         expect(result).to.be.ok();
                         done(err, result);
+                    });
+                });
+            });
+
+            // ensure bulk update ops if available
+            if (bulkArrayUpdate.length) {
+                it("should bulk update with an array", function(done) {
+                    var payload = JSON.parse(JSON.stringify(bulkArrayUpdate));
+                    for (var i = 0; i < payload.length; ++i) {
+                        payload[i][idField] = addedItems[i][idField];
+                    }
+                    endpoint.bulkUpdate(payload, function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        expect(result.errors).to.be.an(Array);
+                        expect(result.success).to.be.an(Array);
+                        expect(result.success.length).to.eql(payload.length);
+                        done();
+                    });
+                });
+            }
+
+            bulkQueryUpdates.forEach(function(update, idx) {
+                it("should bulk update with query " + idx, function(done) {
+                    var query = update.query;
+                    var payload = update.payload;
+                    endpoint.bulkUpdate(payload, query, function(err, result) {
+                        expect(err).to.be(null);
+                        expect(result).to.be.ok();
+                        expect(result.errors).to.be.an(Array);
+                        expect(result.success).to.be.an(Array);
+                        expect(result.success.length).to.eql(addedItems.length);
+                        done();
                     });
                 });
             });

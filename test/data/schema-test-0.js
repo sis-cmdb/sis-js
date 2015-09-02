@@ -10,7 +10,7 @@
         "validItems" : [
             {
                 "name" : "schema1",
-                "owner" : "schema_owner",
+                _sis : { owner: ["schema_owner"] },
                 "definition" : {
                     "requiredField" : { "type" : "String", "required" : true },
                     "uniqueNumberField" : { "type" : "Number", "unique" : true },
@@ -25,7 +25,7 @@
             },
             {
                 "name" : "schema2",
-                "owner" : "schema_owner",
+                _sis: { "owner" : ["schema_owner"] },
                 "definition" : {
                     "stringField":    { "type" : "String", "required" : true },
                     "numberField" : "Number",
@@ -34,8 +34,9 @@
         ],
         "invalidItems" : [
             {
+                // invalid because it's a dupe
                 "name" : "schema1",
-                "owner" : "schema_owner",
+                _sis : { owner: ["schema_owner"] },
                 "definition" : {
                     "requiredField" : { "type" : "String", "required" : true },
                     "uniqueNumberField" : { "type" : "Number", "unique" : true },
@@ -63,7 +64,7 @@
                 }
             },
             {
-                "owner" : "no_name_schema",
+                _sis: { "owner" : ["no_name_schema"] },
                 "definition" : {
                     "requiredField" : { "type" : "String", "required" : true },
                     "uniqueNumberField" : { "type" : "Number", "unique" : true },
@@ -78,7 +79,7 @@
             },
             {
                 "name" : "bad_definition_schema",
-                "owner" : "owner",
+                _sis: { "owner" : ["owner"] },
                 "definition" : {
                     "whats_up" : "bad_type"
                 }

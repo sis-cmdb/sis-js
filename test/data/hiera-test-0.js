@@ -10,7 +10,7 @@
         "validItems" : [
             {
                 "name" : "hiera1",
-                "owner" : ["sisjs"],
+                _sis : { "owner" : ["sisjs"] },
                 "hieradata" : {
                     "key1" : "data1",
                     "key2" : "data2"
@@ -18,7 +18,7 @@
             },
             {
                 "name" : "hiera2",
-                "owner" : ["sisjs"],
+                _sis : { "owner" : ["sisjs"] },
                 "hieradata" : {
                     "key3" : "data1",
                     "key4" : "data2"
@@ -28,7 +28,7 @@
         "invalidItems" : [
             {
                 "name" : "hiera1",
-                "owner" : ["sisjs"],
+                _sis : { "owner" : ["sisjs"] },
                 "hieradata" : {
                     "key3" : "data1",
                     "key4" : "data2"
@@ -53,7 +53,9 @@
             }
         ],
         "get_eqlfun" : function(result, full_item, expect) {
-            expect(result).to.eql(full_item.hieradata);
+            var item = {};
+            item[full_item.name] = full_item.hieradata;
+            expect(result).to.eql(item);
         }
     };
 
